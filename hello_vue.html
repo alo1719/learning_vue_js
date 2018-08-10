@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdn.rawgit.com/jgthms/minireset.css/master/minireset.css">
+        <link rel="stylesheet" href="css/debug.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,500,700,900">
+        <!-- add vue lib -->
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+        <style>
+
+/* resets */
+* { color: inherit; }
+input { font: inherit; border: unset; background: unset; }
+input:focus { outline: unset; }
+
+:root {
+    font: 1rem/1.175 "BlinkMacSystemFont", -apple-system, "Roboto", sans-seri;
+}
+
+#app {
+    display: flex;
+    flex-direction: column; justify-content: center; align-items: center;
+    width: 100vw; height: 100vh;
+    font-weight: 900; font-size: 8rem;
+    color: hsl(0, 0%, 100%);
+    background: hsl(240, 100%, 67%);
+}
+
+input { text-align: center; }
+
+img {
+    width: 8rem; height: 8rem;
+    vertical-align: calc(-0.12109375em);
+}
+
+        </style>
+    </head>
+    <body>
+
+        <div id="app">
+            <input type="text" v-model="message3"/>
+            <p>{{ message }}</p>
+            <!--another equivalent coding style-->
+            <!--// <p v-text="message"></p>-->
+            <p v-html="
+                message2.slice(0, 7) + message3 + message2.slice(12)
+            "></p>
+        </div>
+
+        <script>
+
+"use strict"
+
+// emojify returns the corresponding emoji image
+function emojify(name) {
+    var out = `<img src="emojis/` + name + `.png">`
+    return out
+}
+
+var app = new Vue({
+    // el means element, it hooks the div tag above named "app"
+    el: "#app",
+    // change the message in data can influence the DOM above
+    // this feature is called virtual DOM
+    data: {
+        message: "hello, darkness",
+        message2: "Hello, World! " + emojify("celebration"),
+        message3: "Vue"
+    }
+})
+
+app.message = "You can do it!"
+
+        </script>
+
+    </body>
+</html>
