@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://cdn.rawgit.com/jgthms/minireset.css/master/minireset.css">
+		<link rel="stylesheet" href="css/debug.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,500,700,900">
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+		<style>
+
+:root {
+	font: 1rem/1.175 "BlinkMacSystemFont", "Roboto", sans-serif;
+}
+
+#app {
+	display: flex;
+	flex-direction: column; justify-content: center; align-items: center;
+	width: 100vw; height: 100vh;
+	font-weight: 900; font-size: 8rem;
+	color: hsl(0, 0%, 100%);
+	background: hsl(240, 100%, 67%);
+	user-select: none;
+}
+
+img {
+	width: 8rem; height: 8rem;
+	vertical-align: calc(-0.12109375em);
+}
+
+		</style>
+	</head>
+	<body>
+
+		<div id="app">
+            <wizard :name="harry"    :cast="oculus_reparo"     ></wizard>
+			<wizard :name="ron"      :cast="wingardium_leviosa"></wizard>
+			<wizard :name="hermione" :cast="alohomora"         ></wizard>
+		</div>
+
+		<script>
+
+"use strict"
+
+// emojify returns the corresponding emoji image
+function emojify(name) {
+	var out = `<img src="emojis/` + name + `.png">`
+	return out
+}
+
+// cast returns a spell (function) that decorates the wizard
+function cast(emoji) {
+	var magic = emojify("magic")
+	return function (wizard) {
+		return wizard + " " + magic + " " + emoji + " " + magic
+	}
+}
+
+// Vue.component("harry"   , { template: `<p>` + emojify("harry"   ) + `</p>` })
+// Vue.component("ron"     , { template: `<p>` + emojify("ron"     ) + `</p>` })
+// Vue.component("hermione", { template: `<p>` + emojify("hermione") + `</p>` })
+
+Vue.component("wizard", {
+    props: ["name", "cast"],
+    template: `<p v-html="cast(name)"></p>`
+})
+
+var app = new Vue({
+	el: "#app",
+	data: {
+		harry    : emojify("harry"   ),	
+		ron      : emojify("ron"     ),
+		hermione : emojify("hermione")
+	},
+	methods: {
+		// oculus_reparo returns a spell (function) that repairs glasses		
+		oculus_reparo: cast(emojify("oculus-reparo")),		
+		// wingardium_leviosa returns a spell (function) that levitates an object
+		wingardium_leviosa: cast(emojify("wingardium-leviosa")),
+		// alohomora returns a spell (function) that unlocks a door
+		alohomora: cast(emojify("alohomora"))
+	}
+})
+
+		</script>
+
+	</body>
+</html>
